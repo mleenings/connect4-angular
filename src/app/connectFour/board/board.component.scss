@@ -1,0 +1,32 @@
+mat-grid-tile {
+  background: lightblue;
+}
+
+mat-grid-tile:hover {
+  filter: brightness(105%);
+  cursor: pointer;
+}
+
+.text {
+  display: flex
+}
+
+.name {
+  text-indent: 10px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.top-board{
+  background-color: #789FCC !important;
+}
+
+.board {
+  background-color: #789FCC !important;
+  padding: 0.4rem;
+}

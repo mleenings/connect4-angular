@@ -1,0 +1,13 @@
+<div class="center top-board">
+    <div class="text" *ngIf="!existsWinner">Active Player: <div class="name" [ngStyle]="getPlayerActiveColor()">{{getPlayerActive().name}}</div></div>
+    <div class="text" *ngIf="existsWinner">Winner: <div class="name" [ngStyle]="getWinnerColor()">{{winner.name}}</div></div>
+    <div class="text" *ngIf="isStandOff()">Standoff!</div>
+</div>
+<div class="board">
+  <mat-grid-list cols="{{settingsModel.numColumn}}" rowHeight="{{getRowHeight()}}" [gutterSize]="'0.15em'">
+    <mat-grid-tile [rowspan]="2" *ngFor="let t of getTiles(); let index = index" (click)="onClickTile(index)" [ngStyle]="getTileStyle(index)"></mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div class="center" style="margin-top: 0.1rem;">
+  <ion-button class="ion-float-end" (click)="onClickReset()">Reset</ion-button>
+</div>

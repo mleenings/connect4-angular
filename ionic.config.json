@@ -1,0 +1,7 @@
+{
+  "name": "connectFour",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,24 @@
+<ion-item>
+  <ion-label>Row:</ion-label>
+  <ion-input type="number" [(ngModel)]="settingsModel.numRow" min="4" max="20" (ionChange)="onChange()"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label>Column:</ion-label>
+  <ion-input type="number" [(ngModel)]="settingsModel.numColumn" min="4" max="20" (ionChange)="onChange()"></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label>Human vs. AI:</ion-label>
+  <ion-toggle [(ngModel)]="settingsModel.isHumanVsAI" (ionChange)="onChange()"></ion-toggle>
+</ion-item>
+<ion-item>
+  <ion-label>Player 1 Name: </ion-label>
+  <ion-input [(ngModel)]="settingsModel.playerOneName" (ionChange)="onChange()" placeholder="Player 1"></ion-input>
+</ion-item>
+<ion-item *ngIf="!settingsModel.isHumanVsAI">
+  <ion-label>Player 2 Name: </ion-label>
+  <ion-input [(ngModel)]="settingsModel.playerTwoName" (ionChange)="onChange()" placeholder="Player 2"></ion-input>
+</ion-item>
+<ion-item *ngIf="settingsModel.isHumanVsAI">
+  <ion-label>Player 2 Name: </ion-label>
+  <ion-input value="AI" readonly></ion-input>
+</ion-item>
