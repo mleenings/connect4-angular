@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { properties } from '../properties/properties';
 import { SettingsModel } from '../settings/settings.model';
 import { CookieService } from 'ngx-cookie-service';
@@ -6,7 +7,6 @@ import { GameLogic } from './gameLogic';
 import { Player } from '../players/Player';
 import { OnInit } from '@angular/core';
 import { Tile } from './tile';
-import { TileStyler } from '@angular/material/grid-list/tile-styler';
 
 /*
  * board indexing:
@@ -28,7 +28,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public winner: Player = null;
   public existsWinner:boolean = false;
 
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService, public loadingController: LoadingController) {
     this.loadSettings();
     this.gameLogic = new GameLogic(this.settingsModel);
     this.reset();
@@ -101,9 +101,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.reset();
   }
 
-  onClickTile(index) {
+  async onClickTile(index) {
+    const loading = await this.loadingController.create();
+    await loading.present();
     this.winner = this.gameLogic.clickTile(index);
     this.existsWinner = this.winner !== null && this.winner !== undefined;
+    await loading.dismiss();
   }
 
   getTiles(){
