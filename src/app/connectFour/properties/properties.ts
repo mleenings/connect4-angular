@@ -19,7 +19,9 @@ export const properties = {
   },
   cookie : {
     names: {
-      settings: 'cookie.connect4.settings'
+      settings: 'cookie.connect4.settings',
+      tiles: 'cookie.connect4.tiles',
+      isPlayerOneActive: 'cookie.connect4.isPlayerOneActive'
     }
   }
 };

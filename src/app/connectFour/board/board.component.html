@@ -1,6 +1,6 @@
 <div class="center top-board">
-    <div class="text" *ngIf="!existsWinner">Active Player: <div class="name" [ngStyle]="getPlayerActiveColor()">{{getPlayerActive().name}}</div></div>
-    <div class="text" *ngIf="existsWinner">Winner: <div class="name" [ngStyle]="getWinnerColor()">{{winner.name}}</div></div>
+    <div class="text" *ngIf="isActivePlayerTextVisible()">Active Player: <div class="name" [ngStyle]="getPlayerActiveColor()">{{getPlayerActive().getName()}}</div></div>
+    <div class="text" *ngIf="existsWinner">Winner: <div class="name" [ngStyle]="getWinnerColor()">{{getWinnerName()}}</div></div>
     <div class="text" *ngIf="isStandOff()">Standoff!</div>
 </div>
 <div class="board">

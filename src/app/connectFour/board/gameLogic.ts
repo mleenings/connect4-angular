@@ -31,8 +31,13 @@ export class GameLogic {
     if(this.settingsModel.isHumanVsAI){
       this.playerTwo.name = "AI";
     }else{
-      this.playerTwo.name = "Player 2";
+      this.playerTwo.name = this.settingsModel.playerTwoName;
     }
+  }
+
+  public setPlayerOneActive(isPlayerOneActive: boolean){
+    this.isPlayerOneActive = isPlayerOneActive;
+    this.playerActive = this.playerActive instanceof PlayerOne ? this.playerTwo : this.playerOne;
   }
 
   public getPlayerActive(){
@@ -92,7 +97,9 @@ export class GameLogic {
 
   enableAllTiles(){
     for (let i = 0; i < this.tiles.length; i++){
-      this.tiles[i].isDisabled = false;
+      if(this.tiles[i].background === properties.playerDefault.background){
+        this.tiles[i].isDisabled = false;
+      }
     }
   }
 
@@ -151,8 +158,10 @@ export class GameLogic {
     const col = this.getColumn(index);
     const row = this.calcRow(col);
     const tile = this.getTileByIndex(col, row);
-    tile.background = this.playerActive.getColor();
-    tile.isDisabled = true;
+    if(tile !== undefined){
+      tile.background = this.playerActive.getColor();
+      tile.isDisabled = true;
+    }
   }
 
   switchPlayer(){
@@ -179,7 +188,7 @@ export class GameLogic {
 
   incrementActualMove(){
     this.actualMoves = this.actualMoves + 1;
-    if(this.actualMoves == this.maxMoves){
+    if(this.actualMoves === this.maxMoves){
       this.isStandoff = true;
     }
   }
@@ -202,8 +211,7 @@ export class GameLogic {
   }
 
   checkWinner(): Player{
-    // logging
-    return this.checkWinHorizontal() ?? this.checkWinVertical() ?? this.checkWinDiagonalAscending() ?? this.checkWinDiagonalDecreasing();
+    return this.checkWinHorizontal() ?? this.checkWinVertical() ?? this.checkWinDiagonalAscending() ?? this.checkWinDiagonalDecreasing();;
   }
 
   /*
@@ -253,14 +261,11 @@ export class GameLogic {
     *                               x
     */
     private checkWinVertical(): Player {
-      for (let c = 0; c < this.settingsModel.numColumn; c++){
+      for(let c = 0; c < this.settingsModel.numColumn; c++){
         let sum = 1;
-        for(let r = 0; r < this.settingsModel.numRow -1; r++){
+        for (let r = 0; r < this.settingsModel.numRow - 1; r++){
           const act = this.getTileByIndex(c, r);
           const next = this.getTileByIndex(c, r + 1);
-          if (next === undefined){
-            continue;
-          }
           if (act.background !== this.playerDefault.color
             && (act.background === this.playerOne.color && next.background === this.playerOne.color)
             || (act.background === this.playerTwo.color && next.background === this.playerTwo.color)){
@@ -276,6 +281,9 @@ export class GameLogic {
                 }
                 return null;
               }
+          } else {
+            sum = 1;
+            this.wonTiles = [];
           }
         }
       }
@@ -307,8 +315,7 @@ export class GameLogic {
                   }
                   return null;
                 }
-            }
-            else {
+            } else {
                 sum = 1;
                 this.wonTiles = [];
                 break;

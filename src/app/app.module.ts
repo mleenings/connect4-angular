@@ -1,7 +1,7 @@
 import { HomePage } from './connectFour/home.page';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,

@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { properties } from '../properties/properties';
 import { SettingsModel } from '../settings/settings.model';
 import { CookieService } from 'ngx-cookie-service';
 import { GameLogic } from './gameLogic';
 import { Player } from '../players/Player';
+import { OnInit } from '@angular/core';
+import { Tile } from './tile';
+import { TileStyler } from '@angular/material/grid-list/tile-styler';
 
 /*
  * board indexing:
@@ -19,7 +22,7 @@ import { Player } from '../players/Player';
   templateUrl: 'board.component.html',
   styleUrls: ['board.component.scss']
 })
-export class BoardComponent {
+export class BoardComponent implements OnInit, OnDestroy {
   public settingsModel: SettingsModel;
   public gameLogic: GameLogic;
   public winner: Player = null;
@@ -31,13 +34,53 @@ export class BoardComponent {
     this.reset();
   }
 
+  ngOnInit() {
+    try {
+      const savedTiles: Tile[] = this.loadTilesFromCookie();
+      if(savedTiles.length > 0){
+        this.gameLogic.tiles = savedTiles;
+      }
+      this.gameLogic.setPlayerOneActive(this.cookieService.get('cookie.connect4.isPlayerOneActive') === "true");
+    } catch(e) {
+      // ignore
+    }
+    window.onbeforeunload = () => this.ngOnDestroy();
+  }
+
+  loadTilesFromCookie(): Tile[]{
+    var tiles: Tile[] = [];
+    var i = 0;
+    var isNotEnd = true;
+    while(isNotEnd){
+      try{
+        var key = properties.cookie.names.tiles + '_' + i;
+        var cookieTile = this.cookieService.get(key);
+        const savedTile: Tile = JSON.parse(cookieTile);
+        tiles.push(savedTile);
+        i++;
+        this.cookieService.delete(key);
+      }catch(e){
+        isNotEnd = false;
+      }
+    }
+    return tiles;
+  }
+
+  ngOnDestroy(){
+    var tiles: Tile[] = this.gameLogic.tiles;
+    for (let i = 0; i < tiles.length; i++){
+      this.cookieService.set(properties.cookie.names.tiles + '_' + i, JSON.stringify(tiles[i]));
+    }
+    this.cookieService.set(properties.cookie.names.isPlayerOneActive, '' + this.gameLogic.isPlayerOneActive);
+  }
+
   loadSettings(){
-    const cookie = this.cookieService.get(properties.cookie.names.settings);
-    if (cookie.length === 0){
+    const cookieSettings = this.cookieService.get(properties.cookie.names.settings);
+    if (cookieSettings.length === 0){
       this.settingsModel = new SettingsModel();
     }else{
       try{
-        const savedSettingsModel: SettingsModel = JSON.parse(cookie);
+        const savedSettingsModel: SettingsModel = JSON.parse(cookieSettings);
         this.settingsModel = savedSettingsModel;
       } catch (e) {
         // ignore
@@ -51,6 +94,7 @@ export class BoardComponent {
   reset(){
     this.gameLogic.reset();
     this.winner = null;
+    this.existsWinner = false;
   }
 
   onClickReset(){
@@ -59,7 +103,7 @@ export class BoardComponent {
 
   onClickTile(index) {
     this.winner = this.gameLogic.clickTile(index);
-    this.existsWinner = this.winner !== null;
+    this.existsWinner = this.winner !== null && this.winner !== undefined;
   }
 
   getTiles(){
@@ -88,14 +132,22 @@ export class BoardComponent {
   }
 
   getWinnerColor(){
-    var winCol = this.winner.color !== null ? this.winner.color : '#000000';
+    var winCol = this.winner ? this.winner.color : '#000000';
     return {
       color: winCol,
     };
   }
 
+  getWinnerName(){
+    return this.winner ? this.winner.getName(): '';
+  }
+
   isStandOff(){
     return this.gameLogic.isStandoff;
+  }
+
+  isActivePlayerTextVisible(){
+    return !this.existsWinner && !this.isStandOff();
   }
 
   getRowHeight(){

@@ -28,7 +28,7 @@ ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradl
 ```
 3. run app
 ```
-ionic serve
+ionic serve --open
 ```
 
 ### Typically Failures
