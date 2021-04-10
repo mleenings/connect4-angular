@@ -1,10 +1,10 @@
 <ion-item>
   <ion-label>Row:</ion-label>
-  <ion-input type="number" [(ngModel)]="settingsModel.numRow" min="4" max="20" (ionChange)="onChange()"></ion-input>
+  <ion-input type="number" [(ngModel)]="settingsModel.numRow" min="4" max="20" maxlength="2" (ionChange)="onChange()"></ion-input>
 </ion-item>
 <ion-item>
   <ion-label>Column:</ion-label>
-  <ion-input type="number" [(ngModel)]="settingsModel.numColumn" min="4" max="20" (ionChange)="onChange()"></ion-input>
+  <ion-input type="number" [(ngModel)]="settingsModel.numColumn" min="4" max="20" maxlength="2" (ionChange)="onChange()"></ion-input>
 </ion-item>
 <ion-item>
   <ion-label>Human vs. AI:</ion-label>
