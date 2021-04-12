@@ -18,7 +18,7 @@ ionic capacitor build ios
 ```
 ionic capacitor copy android && cd android && ./gradlew assembleDebug && cd ..
 ```
-  - Then your apk will be at:
+  - Then your android apk will be at:
 ```
 android/app/build/outputs/apk/debug/app-debug.apk
 ```
@@ -26,11 +26,17 @@ android/app/build/outputs/apk/debug/app-debug.apk
 ```
 ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradlew installDebug && cd ..
 ```
+  - Build ios app
+in Xcode: (1) Product -> Clean (2) Product -> Build (3) Product -> Archieve -> (4) Export
 3. run app
 ```
 ionic serve --open
 ```
 
+### Icon generate
+```
+capacitor-resources
+```
 ### Typically Failures
 
 **Failure:** xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory '/Library/Developer/CommandLineTools' is a command line tools instance

@@ -21,7 +21,8 @@ export const properties = {
     names: {
       settings: 'cookie.connect4.settings',
       tiles: 'cookie.connect4.tiles',
-      isPlayerOneActive: 'cookie.connect4.isPlayerOneActive'
+      isPlayerOneActive: 'cookie.connect4.isPlayerOneActive',
+      isSettingChanged: 'cookie.connect4.isSettingChanged'
     }
   }
 };

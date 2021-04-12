@@ -35,16 +35,20 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    try {
-      const savedTiles: Tile[] = this.loadTilesFromCookie();
-      if(savedTiles.length > 0){
-        this.gameLogic.tiles = savedTiles;
+    if(this.cookieService.get('cookie.connect4.isSettingChanged') === 'true'){
+      this.cookieService.set('cookie.connect4.isSettingChanged', 'false');
+      this.reset();
+    } else {
+      try {
+        const savedTiles: Tile[] = this.loadTilesFromCookie();
+        if(savedTiles.length > 0){
+          this.gameLogic.tiles = savedTiles;
+        }
+        this.gameLogic.setPlayerOneActive(this.cookieService.get('cookie.connect4.isPlayerOneActive') === 'true');
+      } catch(e) {
+        // ignore
       }
-      this.gameLogic.setPlayerOneActive(this.cookieService.get('cookie.connect4.isPlayerOneActive') === "true");
-    } catch(e) {
-      // ignore
     }
-    window.onbeforeunload = () => this.ngOnDestroy();
   }
 
   loadTilesFromCookie(): Tile[]{
