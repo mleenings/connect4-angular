@@ -28,6 +28,10 @@ ionic capacitor copy android && cd android && ./gradlew assembleDebug && ./gradl
 ```
   - Build ios app
 in Xcode: (1) Product -> Clean (2) Product -> Build (3) Product -> Archieve -> (4) Export
+```
+cd ios/App && xcodebuild -target "App" -scheme "App" -configuration Release clean archive && cd ../..
+```
+(iphone need to be connected to MacBook...)
 3. run app
 ```
 ionic serve --open
