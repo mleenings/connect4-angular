@@ -37,7 +37,7 @@ export class GameLogic {
 
   public setPlayerOneActive(isPlayerOneActive: boolean){
     this.isPlayerOneActive = isPlayerOneActive;
-    this.playerActive = this.playerActive instanceof PlayerOne ? this.playerTwo : this.playerOne;
+    this.playerActive = this.isPlayerOneActive ? this.playerOne : this.playerTwo;
   }
 
   public getPlayerActive(){
@@ -73,6 +73,7 @@ export class GameLogic {
     this.actualMoves = 0;
     this.playerOne.name = this.settingsModel.playerOneName ? this.settingsModel.playerOneName : this.playerOne.name;
     this.playerTwo.name = this.settingsModel.playerTwoName ? this.settingsModel.playerTwoName : this.playerTwo.name;
+    this.setPlayerOneActive(true);
   }
 
   public clickTile(index: number): Player {
