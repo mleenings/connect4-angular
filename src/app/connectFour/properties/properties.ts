@@ -5,13 +5,13 @@ export const properties = {
    */
   playerOne: {
     name: 'Player 1',
-    background: '#F9665E', // red
-    wonColor: '#fca6a1'
+    background: '#EA4435', // red
+    wonColor: '#F9665E'
   },
   playerTwo: {
     name: 'Player 2',
-    background: '#FDDD5C', // yellow
-    wonColor: '#FDFD97'
+    background: '#FBBC04', // yellow
+    wonColor: '#FDDD5C'
   },
   playerDefault: {
     name: 'Player 1',
