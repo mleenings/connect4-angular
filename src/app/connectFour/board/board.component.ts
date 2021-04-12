@@ -37,18 +37,19 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(this.cookieService.get('cookie.connect4.isSettingChanged') === 'true'){
       this.cookieService.set('cookie.connect4.isSettingChanged', 'false');
-      this.reset();
-    } else {
-      try {
-        const savedTiles: Tile[] = this.loadTilesFromCookie();
-        if(savedTiles.length > 0){
-          this.gameLogic.tiles = savedTiles;
-        }
-        this.gameLogic.setPlayerOneActive(this.cookieService.get('cookie.connect4.isPlayerOneActive') === 'true');
-      } catch(e) {
-        // ignore
-      }
     }
+    try {
+      const savedTiles: Tile[] = this.loadTilesFromCookie();
+      if(savedTiles.length > 0){
+        this.gameLogic.tiles = savedTiles;
+      }
+      var strIsPlayerOneActive = this.cookieService.get('cookie.connect4.isPlayerOneActive');
+      var isPlayerOneActive = strIsPlayerOneActive.length == 0 || strIsPlayerOneActive === 'true';
+      this.gameLogic.setPlayerOneActive(isPlayerOneActive);
+    } catch(e) {
+      // ignore
+    }
+    this.reset();
   }
 
   loadTilesFromCookie(): Tile[]{
@@ -100,6 +101,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.winner = null;
     this.existsWinner = false;
     this.gameLogic.isStandoff = false;
+    this.gameLogic.setPlayerOneActive(true);
   }
 
   onClickReset(){
