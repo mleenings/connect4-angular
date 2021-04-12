@@ -1,6 +1,6 @@
 export class SettingsModel {
-  numRow = 7;
-  numColumn = 6;
+  numRow = 6;
+  numColumn = 7;
   playerOneName: string;
   playerTwoName: string;
   isHumanVsAI: boolean = false;
