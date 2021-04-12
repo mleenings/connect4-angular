@@ -99,6 +99,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.gameLogic.reset();
     this.winner = null;
     this.existsWinner = false;
+    this.gameLogic.isStandoff = false;
   }
 
   onClickReset(){
