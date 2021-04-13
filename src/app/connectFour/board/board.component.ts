@@ -3,7 +3,7 @@ import { LoadingController } from '@ionic/angular';
 import { properties } from '../properties/properties';
 import { SettingsModel } from '../settings/settings.model';
 import { CookieService } from 'ngx-cookie-service';
-import { GameLogic } from './gameLogic';
+import { GameLogic } from '../game/gameLogic';
 import { Player } from '../players/Player';
 import { OnInit } from '@angular/core';
 import { Tile } from './tile';
@@ -41,7 +41,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     try {
       const savedTiles: Tile[] = this.loadTilesFromCookie();
       if(savedTiles.length > 0){
-        this.gameLogic.tiles = savedTiles;
+        this.gameLogic.setTiles(savedTiles);
       }
       var strIsPlayerOneActive = this.cookieService.get('cookie.connect4.isPlayerOneActive');
       var isPlayerOneActive = strIsPlayerOneActive.length == 0 || strIsPlayerOneActive === 'true';
@@ -72,11 +72,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    var tiles: Tile[] = this.gameLogic.tiles;
+    var tiles: Tile[] = this.gameLogic.getTiles();
     for (let i = 0; i < tiles.length; i++){
       this.cookieService.set(properties.cookie.names.tiles + '_' + i, JSON.stringify(tiles[i]));
     }
-    this.cookieService.set(properties.cookie.names.isPlayerOneActive, '' + this.gameLogic.isPlayerOneActive);
+    this.cookieService.set(properties.cookie.names.isPlayerOneActive, '' + this.gameLogic.getPlayerOneActive());
   }
 
   loadSettings(){
@@ -100,7 +100,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.gameLogic.reset();
     this.winner = null;
     this.existsWinner = false;
-    this.gameLogic.isStandoff = false;
+    this.gameLogic.setStandOff(false);
     this.gameLogic.setPlayerOneActive(true);
   }
 
@@ -153,7 +153,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   isStandOff(){
-    return this.gameLogic.isStandoff;
+    return this.gameLogic.getStandOff();
   }
 
   isActivePlayerTextVisible(){

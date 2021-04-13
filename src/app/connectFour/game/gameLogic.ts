@@ -1,13 +1,14 @@
 import { SettingsModel } from '../settings/settings.model';
 import { properties } from '../properties/properties';
-import { Tile } from './tile';
+import { Tile } from '../board/tile';
 import { Player } from '../players/Player';
 import { PlayerOne } from '../players/PlayerOne';
 import { PlayerTwo } from '../players/PlayerTwo';
 import { PlayerDefault } from '../players/PlayerDefault';
 import { AI } from '../ai/ai';
+import { Game } from './game';
 
-export class GameLogic {
+export class GameLogic implements Game{
   public settingsModel: SettingsModel;
   public tiles: Tile[];
   public playerOne: Player = new PlayerOne('Player 1');
@@ -34,6 +35,27 @@ export class GameLogic {
       this.playerTwo.name = this.settingsModel.playerTwoName;
     }
   }
+  setTiles(tiles: Tile[]) {
+    this.tiles = tiles;
+  }
+  getSettingsModel(): SettingsModel {
+    return this.settingsModel;
+  }
+  setSettingsModel(settingsModel: SettingsModel) {
+    this.settingsModel = settingsModel;
+  }
+
+  getPlayerOneActive(): boolean{
+    return this.isPlayerOneActive;
+  }
+
+  getStandOff(): boolean {
+    return this.isStandoff;
+  }
+
+  setStandOff(isStandOff: boolean){
+    this.isStandoff = isStandOff;
+  }
 
   public setPlayerOneActive(isPlayerOneActive: boolean){
     this.isPlayerOneActive = isPlayerOneActive;
@@ -44,7 +66,7 @@ export class GameLogic {
     return this.playerActive;
   }
 
-  public getTile(index){
+  public getTile(index: number){
     return this.tiles[index];
   }
 

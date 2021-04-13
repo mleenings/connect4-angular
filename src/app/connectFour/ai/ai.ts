@@ -1,6 +1,6 @@
 import { Player } from '../players/Player';
 import { PlayerDefault } from '../players/PlayerDefault';
-import { GameLogic } from './../board/gameLogic';
+import { GameLogic } from '../game/gameLogic';
 
 /* max value for infinity */
 const maxValue:number = 1000000;
